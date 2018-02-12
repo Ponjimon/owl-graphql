@@ -3,6 +3,8 @@ This repository is a GraphQL wrapper for the API of the Overwatch League
 
 It is made with the [serverless framework](https://serverless.com)
 
+![Example image](https://ify.re/f/ZYdKjHSB.jpg)
+
 ## Install
 1. Run `npm install` or `yarn install`
 2. Rename `config.sample.js` to `config.js` and change the configuration (e.g. add a redis server for query caching, etc.)
