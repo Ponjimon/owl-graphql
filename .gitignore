@@ -1,0 +1,18 @@
+# sqlite db file
+*.db
+.DS_Store
+node_modules
+npm-debug.log
+users.json
+
+# serverless zip
+.serverless
+# webpack build files
+.webpack
+# eslint cache
+.eslintcache
+
+# vim
+*.swp
+.idea
+config.js

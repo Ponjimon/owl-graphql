@@ -1,0 +1,46 @@
+service: owl-graphql
+
+frameworkVersion: ">=1.21.0 <2.0.0"
+
+provider:
+  name: aws
+  logRetentionInDays: 3
+  runtime: nodejs6.10
+  stage: dev
+  region: us-east-1
+  environment:
+    NODE_ENV: ${env:NODE_ENV}
+    STAGE: ${opt:stage, self:provider.stage}
+
+plugins:
+  - serverless-offline
+  - serverless-webpack
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  serverless-offline:
+    port: 4000
+  webpackIncludeModules: true
+
+functions:
+  graphql:
+    handler: src/handler.graphqlHandler
+    events:
+    - http:
+        path: graphql
+        method: post
+        cors: true
+  playground:
+    handler: src/handler.playgroundHandler
+    events:
+    - http:
+        path: playground
+        method: get
+        cors: true
+  graphiql:
+    handler: src/handler.graphiqlHandler
+    events:
+    - http:
+        path: graphiql
+        method: get
+        cors: true

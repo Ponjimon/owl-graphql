@@ -1,0 +1,137 @@
+
+interface Node {
+    id: ID!
+}
+
+type Division implements Node {
+    id: ID!
+    name: String!
+    abbrev: String!
+}
+
+type DivisionConnection {
+    edges: [DivisionEdge]
+    pageInfo: PageInfo!
+}
+
+type DivisionEdge {
+    cursor: String!
+    node: Division
+}
+
+type Team implements Node {
+    id: ID!
+    name: String!
+    homeLocation: String!
+    primaryColor: String!
+    secondaryColor: String!
+    abbreviatedName: String!
+    logo: String!
+    icon: String!
+    secondaryPhoto: String!
+    players(after: String, first: Int!): PlayerConnection @cost(complexity: 1, useMultipliers: true, multiplier: "first")
+}
+
+type TeamConnection {
+    edges: [TeamEdge]
+    pageInfo: PageInfo!
+}
+
+type TeamEdge {
+    cursor: String!
+    node: Team
+}
+
+type Player implements Node {
+    id: ID!
+    name: String!
+    homeLocation: String!
+    accounts(after: String, first: Int!): AccountConnection @cost(complexity: 1, useMultipliers: true, multiplier: "first")
+    heroes: [String],
+    playerNumber: Int!
+    role: String!
+    familyName: String!
+    givenName: String!
+    nationality: String!
+    headshot: String!
+}
+
+type PlayerConnection {
+    edges: [PlayerEdge]
+    pageInfo: PageInfo!
+}
+
+type PlayerEdge {
+    cursor: String!
+    node: Player
+}
+
+type Account implements Node {
+    id: ID!
+    playerId: ID!
+    value: String!
+    accountType: String!
+    isPublic: Boolean!
+}
+
+type AccountConnection {
+    edges: [AccountEdge]
+    pageInfo: PageInfo!
+}
+
+type AccountEdge {
+    cursor: String!
+    node: Account
+}
+
+type Rank {
+    advantage: Int!
+    team: Team!
+    placement: Int!
+    records: [Record]
+}
+
+type Record {
+    gameLoss: Int!
+    gamePointsAgainst: Int!
+    gamePointsFor: Int!
+    gameTie: Int!
+    gameWin: Int!
+    matchBye: Int!
+    matchDraw: Int!
+    matchLoss: Int!
+    matchWin: Int!
+}
+
+type Stage implements Node {
+    id: ID!
+    name: String!
+    teams(after: String, first: Int!): TeamConnection
+}
+
+type StageConnection {
+    edges: [StageEdge]
+    pageInfo: PageInfo!
+}
+
+type StageEdge {
+    cursor: String!
+    node: Stage
+}
+
+type PageInfo {
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+    endCursor: String
+}
+
+type Query {
+    teams(after: String, first: Int!): TeamConnection @cost(compelexity: 1)
+    ranks: [Rank]
+    stages(after: String, first: Int!): StageConnection @cost(complexity: 1)
+}
+
+schema {
+    query: Query
+}
